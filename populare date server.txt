@@ -1,0 +1,137 @@
+CREATE TABLE Clienti
+(idclient int NOT NULL,
+ PRIMARY KEY (idclient),
+nume VARCHAR (30) NOT NULL,
+statut VARCHAR (10)  NOT NULL,
+ALTER TABLE add constraint c_statut  CHECK (statut='VIP' OR statut='C') );
+
+CREATE TABLE Bilete
+(nrbilet int NOT NULL,
+PRIMARY KEY (nrbilet),
+clasa VARCHAR (8)  NOT NULL,
+valoare int NOT NULL,
+sursa VARCHAR (10) NOT NULL,
+destinatia VARCHAR (20) NOT NULL,
+idclient int NOT NULL ,
+FOREIGN KEY (idclient) REFERENCES Clienti (idclient),
+ALTER TABLE add constraint c_clasa CHECK (clasa='Economic' OR clasa='Business') );
+
+CREATE TABLE Zboruri
+(nrzbor VARCHAR(6) NOT NULL,
+PRIMARY KEY (nrzbor),
+de_la VARCHAR(30) NOT NULL,
+la VARCHAR(30) NOT NULL,
+aparat_zbor VARCHAR(30) NOT NULL,
+nr_locuri int (3) NOT NULL,
+plecare datetime NOT NULL,
+sosire datetime NOT NULL);
+
+CREATE TABLE Cupoane
+(nrbilet int NOT NULL ,
+nrzbor VARCHAR(6) NOT NULL ,
+clasa VARCHAR(8)  NOT NULL,
+FOREIGN KEY (nrzbor) REFERENCES Zboruri (nrzbor),
+FOREIGN KEY (nrbilet) REFERENCES Bilete (nrbilet),
+loc int NOT NULL,
+PRIMARY KEY (nrbilet, nrzbor), 
+ALTER TABLE add constraint c_clasa CHECK (clasa='Economic' OR clasa='Business') );
+
+
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1001, 'Imre Gabriela', 'C', 'str. Iuliu Maniu, nr. 53 Ulmeni, Maramures, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1002, 'Popescu Paul', 'C', 'str. Carpati, nr. 3 Baia Mare, Maramures, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1003, 'Matesan Antonia', 'VIP', 'str. Ciucas, nr.44 Targu Mures, Mures, Romania ');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1004, 'Oros Alin Nicolae', 'VIP', 'str. Bradului, nr.4 Sovata, Mures, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1005, 'Atanasiu Elena', 'VIP', 'str. Libertatii, nr.27 Slatina, Olt, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1006, 'Popovici Crina Alina', 'VIP', 'str. Lebedei, nr.10 Galati, Galati, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1007, 'Covaci Florin', 'C', 'str. Nicoresti, nr.6 Tecuci, Galati, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1008, 'Covaciu Cornel', 'C', ' str. Vlad Tepes, nr.23 Pascani, Iasi, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1009, 'Constantin Darius', 'C', 'str. Fermelor, nr.17 Piatra Neamt, Neamt, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1010, 'Pop Daiana', 'C', 'str. Rozelor, nr.7 Cluj, Cluj-Napoca, Romania');
+INSERT INTO Clienti (idclient, nume, statut, adresa)
+VALUES (1011, 'Muresan Crina', 'C', 'str. Observatorului, nr.37 Cluj, Cluj-Napoca, Romania');
+
+
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (120, 'Economic', 50, 'Cluj', 'Bucuresti', 1001);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (121, 'Economic', 80, 'Iasi', 'Praga', 1002);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (122, 'Business', 550, 'Baia Mare', 'Budapesta', 1003);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (128, 'Economic', 400, 'Oradea', 'Viena', 1004);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (124, 'Business', 580, 'Cluj', 'Paris', 1005);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (125, 'Economic', 300, 'Oradea', 'Oslo', 1006);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (126, 'Economic', 90, 'Iasi', 'Moscova', 1007);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (127, 'Business', 70, 'Oradea', 'Madrid',1008);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (123, 'Economic', 70, 'Timisoara', 'Madrid',1009);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (129, 'Economic', 70, 'Iasi', 'Barcelona',1010);
+INSERT INTO Bilete (nrbilet, clasa, valoare, sursa, destinatia, idclient )
+VALUES (130, 'Business', 100, 'Cluj', 'Praga',1011);
+
+
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF212', 'Bucuresti', 'Barcelona', 'Airbus A318', 80, '01-23-2018 2:30:00 PM' , '01-23-2018 4:30:00 PM' );
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF210', 'Cluj', ' Viena',  'Airbus A319', 150, '02-25-2018 09:00:00 AM' ,'02-25-2018 12:40:00 PM' );  
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF231', 'Viena', ' Praga',  'Airbus A319', 150, '03-15-2018 09:30:00 AM' ,'03-15-2018 11:40:00 AM');
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF214', 'Oradea', 'Amsterdam', ' Airbus A318', 120, '08-05-2018 12:00:00 PM' , '08-05-2018 14:00:00 PM');
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF215', 'Amsterdam', 'Viena',  'Airbus A319', 140, '07-10-2018 07:35:00 AM' , '07-10-2018 10:10:00 AM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF216', 'Cluj', 'Oslo', 'Airbus A320', 180,  '09-18-2018 10:30:00 AM' , '09-18-2018 02:30:00 PM' );
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF217',  'Oslo', 'Paris', 'Airbus A310', 160, '10-23-2018 01:50:00 PM' , '10-23-2018 03:00:00 PM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF218',  'Oradea', 'Roma', 'Airbus A318', 160, '06-25-2018 04:10:00 PM' , '06-25-2018 07:00:00 PM'); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF219',  'Roma', 'Oslo', 'Airbus A318', 120, '10-01-2018 08:30:00 AM' , '10-01-2018 11:30:00 AM' );
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF220',  'Iasi', 'Baia Mare', 'Airbus A319', 100,  '07-29-2018 04:50:00 PM' , '07-29-2018 06:45:00 PM'); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF221',  'Baia Mare', 'Moscova', 'Airbus A320', 120, '05-21-2018 10:30:00 AM' , '05-21-2018 12:30:00 PM' );
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF222',  'Oradea', 'Lisabona', 'Airbus A320', 120, '10-20-2018 07:30:00 PM ' , '10-20-2018 10:30:00 PM' );  
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF223',  'Lisabona', 'Madrid', 'Airbus A320', 120, '08-03-2018 12:30:00 PM' , '08-03-2018 04:30:00 PM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF213',  'A', 'B', 'Airbus 310-325', 100, '08-15-2018 10:45:00 AM' , '08-15-2018 01:05:00 PM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF230',  'Sibiu', 'Madrid', 'Airbus A321', 130, '09-01-2018 11:30:00 AM' ,'09-01-2018 02:00:00 PM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF232',  'Iasi', 'Paris', 'Airbus A322', 120, '05-01-2018 01:30:00 PM' , '05-01-2018 03:00:00 PM' ); 
+INSERT INTO Zboruri (nrzbor, de_la, la, aparat_zbor, nr_locuri, plecare, sosire) VALUES ('AIF233',  'Cluj', 'Paris', 'Airbus A322', 100, '02-01-018 01:30:00 PM' , '02-01-2018 03:00:00 PM' ); 
+
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 121, 'AIF233',  'Economic',  '12')
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 128, 'AIF215',  'Economic',  '12');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 124, 'AIF216' , 'Business' , '55');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 124, 'AIF217', 'Business' , '23');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 125, 'AIF218',  'Economic',  '14');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 125, 'AIF219',  'Economic',  '50');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 126, 'AIF220',  'Economic',  '43');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 126, 'AIF221',  'Economic',  '11');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 127, 'AIF222', 'Business',  '28');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 127, 'AIF223', 'Business',  '40');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 123, 'AIF213', 'Economic',  '89');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 129, 'AIF211', 'Economic',  '18');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 129, 'AIF212', 'Economic',  '20');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 130, 'AIF210', 'Business',  '18');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 130, 'AIF231', 'Business',  '20');
+INSERT INTO Cupoane (nrbilet, nrzbor, clasa, loc)
+VALUES ( 123, 'AIF233', 'Economic',  '90');
